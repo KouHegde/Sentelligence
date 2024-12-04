@@ -2,16 +2,35 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.1-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
-
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
+repositories {
+	mavenCentral()
+
+	maven {
+		url "https://engci-maven-master.cisco.com/artifactory/contact-center-release"
+		credentials {
+			username = System.getenv("myCEC_USERNAME") // Set this in your environment
+			password = System.getenv("myArtifactoryAPIKey") // Set this in your environment
+		}
+	}
+}
+
 
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
+
+ext {
+	wccaiProtoVersion = "5.0.0"
+	grpcVersion = "1.62.2"
+	protobufVersion = "3.25.3"
+}
+
 
 configurations {
 	compileOnly {
@@ -30,8 +49,26 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation "com.cisco.wccai:serving-api-service:5.0.0"
+	implementation "com.cisco.wccai:insight-orchestrator-service:5.0.0"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation "com.google.protobuf:protobuf-java-util:$protobufVersion"
+	implementation "io.grpc:grpc-netty-shaded:$grpcVersion"
+	implementation "io.grpc:grpc-protobuf:$grpcVersion"
+	implementation "io.grpc:grpc-stub:$grpcVersion"
+	implementation "io.grpc:grpc-auth:$grpcVersion"
+
+	testImplementation "io.grpc:grpc-testing:$grpcVersion" // Test-scoped dependency
+}
+
+shadowJar {
+	manifest {
+		attributes(
+				'Main-Class': 'com.cisco.wccai.tests.IntegrationTest', // Main class
+				'Build-Number': '1.0' // Additional custom entries
+		)
+	}
 }
 
 tasks.named('test') {
