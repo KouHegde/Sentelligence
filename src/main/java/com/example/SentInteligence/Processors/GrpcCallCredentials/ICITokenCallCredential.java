@@ -26,7 +26,7 @@ public class ICITokenCallCredential extends CallCredentials {
         executor.execute(() -> {
             try {
                 Metadata headers = new Metadata();
-                headers.put(Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER), "Bearer " + token);
+                headers.put(Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER), "Bearer " + "token");
                 Metadata.Key<String> trackingId = Metadata.Key.of("trackingId", Metadata.ASCII_STRING_MARSHALLER);
                 headers.put(trackingId, "client_" + UUID.randomUUID().toString().replace("-", ""));
                 log.info("Tracking ID is: {}", headers.get(trackingId));

@@ -2,7 +2,7 @@ package com.example.SentInteligence.Clients.ServingApiClient.Implementation;
 
 import com.cisco.wcc.ccai.v1.InsightServingResponse;
 import com.cisco.wcc.ccai.v1.StreamingInsightServingResponse;
-import com.example.SentInteligence.Models.Response.AutoResponseResult;
+import com.example.SentInteligence.Model.Response.AutoResponseResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.grpc.stub.StreamObserver;
