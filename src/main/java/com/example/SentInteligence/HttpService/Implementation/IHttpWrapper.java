@@ -1,5 +1,7 @@
 package com.example.SentInteligence.HttpService.Implementation;
 
+import org.springframework.stereotype.Component;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -7,6 +9,7 @@ import java.net.http.HttpResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Component
 public class IHttpWrapper {
     private static final Logger logger = Logger.getLogger(IHttpWrapper.class.getName());
     private final HttpClient httpClient;

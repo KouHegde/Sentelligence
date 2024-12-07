@@ -1,14 +1,14 @@
 package com.example.SentInteligence.Model.Response;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Map;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ConversationSentiment {
     private String conversationId;   // Unique identifier for the conversation
     private double score;             // Sentiment score (e.g., 95.56)

@@ -1,13 +1,13 @@
 package com.example.SentInteligence.Model.Response;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Map;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResponseWrapper<RES> {
     private int statusCode;         // HTTP status code of the response (e.g., 200, 404)
     private String statusMessage;    // Descriptive message corresponding to the status code (e.g., "OK")
