@@ -8,6 +8,7 @@ public class CommonConstants {
     public static final String LANGUAGE_CODE = "LANGUAGE_CODE";
     public static final String AUDIO_FILE_PATH = "AUDIO_FILE_PATH";
     public static final String AUDIO_ENCODING_TYPE = "AUDIO_ENCODING_TYPE";
+    public static final String UNKNOWN = "Unknown";
 
     public static final String REALTIME_AGENT_ASSIST_FLAG = "REALTIME_AGENT_ASSIST_FLAG";
     public static final String REALTIME_TRANSCRIPT_FLAG = "REALTIME_TRANSCRIPT_FLAG";
@@ -38,4 +39,9 @@ public class CommonConstants {
     public static final String COMPLETED_MESSAGE = "COMPLETED_MESSAGE";
     public static final String HAS_INLINE_RESPONSE = "HAS_INLINE_RESPONSE";
     public static final String ERROR_MESSAGE = "ERROR_MESSAGE";
+
+
+
+    // application properties constants
+    public static final String LLM_URL = "sentimentAnalysis.url";
 }

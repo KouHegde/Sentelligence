@@ -1,14 +1,13 @@
 package com.example.SentInteligence.Model.Request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Map;
 
 @Getter
 @Setter
-@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RequestWrapper <REQ>{
     private String convId;         // Conversation ID
     private String orgId;          // Organization ID
@@ -16,4 +15,14 @@ public class RequestWrapper <REQ>{
     private Map<String, String> headers; // Additional headers (optional)
     private Map<String, String> requestParams; // Request query parameters (optional)
     private long timestamp;
+
+    public RequestWrapper(String convId,String orgId, REQ body,Map<String, String> requestParams){
+        this.convId = convId;
+        this.orgId = orgId;
+        this.timestamp = System.currentTimeMillis();
+        this.setBody(body);
+        this.headers = null;
+        this.requestParams = requestParams;
+    }
+
 }

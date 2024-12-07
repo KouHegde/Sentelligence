@@ -5,14 +5,16 @@ import com.example.SentInteligence.Model.Request.TranscriptDetail;
 import com.example.SentInteligence.Model.Response.ConversationSentiment;
 import com.example.SentInteligence.Model.Response.ResponseWrapper;
 import com.example.SentInteligence.Service.SentimentAnalysisService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
-@RequestMapping("/sentiment/{convId}")
+@RequestMapping("/sentiment/")
 public class SentimentAnalysisController {
+    private static final  String ORG_ID = "orgId";
 
     private final SentimentAnalysisService sentimentAnalysisService;
 
@@ -21,26 +23,24 @@ public class SentimentAnalysisController {
         this.sentimentAnalysisService = sentimentAnalysisService;
     }
 
-    @PostMapping("/process")
-    public ResponseEntity<ResponseWrapper<ConversationSentiment>> processSentiment(
-            @RequestBody RequestWrapper<TranscriptDetail> transcriptDetailRequest) {
+    @PostMapping("/process/{convId}")
+    public ResponseEntity<ConversationSentiment> processSentiment(
+            @PathVariable("convId") String convId,
+            @RequestParam Map<String, String> requestParams,
+            @RequestBody TranscriptDetail transcriptDetailRequest) {
         try {
-            ResponseWrapper<ConversationSentiment> response = sentimentAnalysisService.analyseSentiment(transcriptDetailRequest);
-            return ResponseEntity.ok(response);
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(500)
-                    .body(ResponseWrapper.<ConversationSentiment>builder()
-                            .statusCode(500)
-                            .statusMessage("Error processing sentiment analysis: " + e.getMessage())
-                            .build());
+            RequestWrapper<TranscriptDetail> transcriptDetailRequestWrapper = gettranscriptDetailRequestWrapper(transcriptDetailRequest,convId, requestParams.get(ORG_ID),requestParams);
+            ResponseWrapper<ConversationSentiment> response = sentimentAnalysisService.analyseSentiment(transcriptDetailRequestWrapper);
+            return ResponseEntity.ok(response.getBody());
         } catch (Exception e) {
-            return ResponseEntity.status(500)
-                    .body(ResponseWrapper.<ConversationSentiment>builder()
-                            .statusCode(500)
-                            .statusMessage("Unexpected error occurred: " + e.getMessage())
-                            .build());
+            throw new RuntimeException(e.getMessage());
         }
     }
+
+    private RequestWrapper<TranscriptDetail> gettranscriptDetailRequestWrapper(TranscriptDetail transcriptDetailRequest, String convId, String orgId, Map<String, String> requestParams) {
+        return new RequestWrapper<>(convId,orgId,transcriptDetailRequest,requestParams);
+    }
+
 }
 
 
