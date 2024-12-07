@@ -14,3 +14,4 @@ public class SentimentAnalysisResult {
     private String sentiment;        // Sentiment of the analysis (e.g., Negative/Positive/Neutral)
     private double confidence;
 }
+
