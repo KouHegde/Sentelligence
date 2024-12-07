@@ -11,6 +11,6 @@ import lombok.*;
 @NoArgsConstructor
 public class SentimentAnalysisResult {
     @JsonProperty("sentiment")
-    private SentimentType sentiment;        // Sentiment of the analysis (e.g., Negative/Positive/Neutral)
+    private String sentiment;        // Sentiment of the analysis (e.g., Negative/Positive/Neutral)
     private double confidence;
 }
