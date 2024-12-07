@@ -1,15 +1,11 @@
 package com.example.SentInteligence.Processors.GrpcCallCredentials;
 
+import com.example.SentInteligence.Utils.AuthHandler;
 import io.grpc.CallCredentials;
 import io.grpc.Metadata;
 import io.grpc.Status;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 import java.util.concurrent.Executor;
 @Getter
@@ -22,11 +18,11 @@ public class ICITokenCallCredential extends CallCredentials {
 
     @Override
     public void applyRequestMetadata(RequestInfo requestInfo, Executor executor, final MetadataApplier metadataApplier) {
-//        String token = AuthHandler.getToken();
+        String token = AuthHandler.getToken();
         executor.execute(() -> {
             try {
                 Metadata headers = new Metadata();
-                headers.put(Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER), "Bearer " + "token");
+                headers.put(Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER), "Bearer " + token);
                 Metadata.Key<String> trackingId = Metadata.Key.of("trackingId", Metadata.ASCII_STRING_MARSHALLER);
                 headers.put(trackingId, "client_" + UUID.randomUUID().toString().replace("-", ""));
                 log.info("Tracking ID is: {}", headers.get(trackingId));
