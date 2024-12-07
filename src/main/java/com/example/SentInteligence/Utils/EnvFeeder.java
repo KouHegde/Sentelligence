@@ -16,7 +16,7 @@ public final class EnvFeeder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EnvFeeder.class);
 
-    private static final String SERVICE_PROPERTIES_PATH = "SERVICE_PROPERTIES_PATH";
+    private static final String SERVICE_PROPERTIES_PATH =  "SERVICE_PROPERTIES_PATH";
     private static final String SERVICE_PROPERTIES_PATH_DEFAULT = Objects.requireNonNull(EnvFeeder.class.getClassLoader().getResource("devus1-config.properties")).getPath();
     private static final String MAIN_PROPERTIES_PATH_DEFAULT = Objects.requireNonNull(EnvFeeder.class.getClassLoader().getResource("config.properties")).getPath();
     private static final Properties MAIN_PROPERTIES = loadMainProperties();
