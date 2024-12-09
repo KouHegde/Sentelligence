@@ -16,10 +16,10 @@ import java.util.Map;
 public class SentimentAnalysisController {
     private static final  String ORG_ID = "orgId";
 
-    private final SentimentAnalysisService sentimentAnalysisService;
+    private final SentimentAnalysisService<TranscriptDetail,ConversationSentiment> sentimentAnalysisService;
 
     @Autowired
-    public SentimentAnalysisController(SentimentAnalysisService sentimentAnalysisService) {
+    public SentimentAnalysisController(SentimentAnalysisService<TranscriptDetail,ConversationSentiment> sentimentAnalysisService) {
         this.sentimentAnalysisService = sentimentAnalysisService;
     }
 

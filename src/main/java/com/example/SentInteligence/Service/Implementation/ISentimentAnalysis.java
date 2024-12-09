@@ -26,7 +26,7 @@ import static com.example.SentInteligence.CommonConstants.CommonConstants.UNKNOW
 @Primary
 @Component
 @Getter
-public class ISentimentAnalysis implements SentimentAnalysisService {
+public class ISentimentAnalysis implements SentimentAnalysisService<TranscriptDetail,ConversationSentiment> {
 
     private final IHttpWrapper httpWrapper;
     private final ApplicationPropertiesUtils applicationPropertiesUtils;
@@ -62,7 +62,7 @@ public class ISentimentAnalysis implements SentimentAnalysisService {
         ConversationSentiment.ConversationSentimentBuilder builder = ConversationSentiment.builder();
         builder.conversationId(transcriptDetailRequest.getConvId());
         builder.score(Objects.nonNull(sentimentAnalysisResult) ? sentimentAnalysisResult.getConfidence() : null);
-        builder.rating(Objects.nonNull(sentimentAnalysisResult) ?sentimentAnalysisResult.getSentiment() : UNKNOWN);
+        builder.rating(Objects.nonNull(sentimentAnalysisResult) ? sentimentAnalysisResult.getSentiment() : UNKNOWN);
         return builder.build();
     }
 

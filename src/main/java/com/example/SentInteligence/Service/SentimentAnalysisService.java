@@ -7,8 +7,8 @@ import com.example.SentInteligence.Model.Response.ConversationSentiment;
 import com.example.SentInteligence.Model.Response.ResponseWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public interface SentimentAnalysisService{
+public interface SentimentAnalysisService<REQ,RES>{
 
-ResponseWrapper<ConversationSentiment> analyseSentiment(RequestWrapper<TranscriptDetail> transcriptDetailRequest) throws JsonProcessingException, SentimentLlmException;
+ResponseWrapper<RES> analyseSentiment(RequestWrapper<REQ> transcriptDetailRequest) throws JsonProcessingException, SentimentLlmException;
 
 }
