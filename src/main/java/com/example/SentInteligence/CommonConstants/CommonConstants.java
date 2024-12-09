@@ -44,4 +44,5 @@ public class CommonConstants {
 
     // application properties constants
     public static final String LLM_URL = "sentimentAnalysis.url";
+    public static final String TRANSCRIPT_JSON = "transcriptJson";
 }

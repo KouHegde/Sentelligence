@@ -1,11 +1,22 @@
 package com.example.SentInteligence.Model.Request;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UpdateSentimentUIRequest {
-    private Integer offset;
+    @JsonProperty("transcriptOffset")
+    private int transcriptOffset;
+    private int transcriptLimit;
 
+    @Override
+    public String toString() {
+        return "SentimentUIUpdateRequest{" +
+                "transcriptOffset=" + transcriptOffset +
+                '}';
+    }
 }
