@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 
 public class ServingApiClientUtils {
     private static final String LATENCY_CONSTANT = "Latency : ";
-    private static final String ROLE_SNIPPET = ", role:";
-    private static final String PIPELINE = " | ";
     private static final String CONTENT = "content";
     private static final String ROLE = "role";
 
@@ -79,7 +77,7 @@ public class ServingApiClientUtils {
     }
 
     public static List<TranscriptContent> getContentFromHits(ElasticSearchResponse response) {
-        AtomicInteger orderCounter = new AtomicInteger(0); // Counter to assign sequential order
+        AtomicInteger orderCounter = new AtomicInteger(0);
         return Optional.ofNullable(response)
                 .map(ElasticSearchResponse::getHits)
                 .map(Hits::getHits)
@@ -96,41 +94,74 @@ public class ServingApiClientUtils {
     }
 
     public static String getMergedContentByOffset(List<TranscriptContent> transcriptList, int offset, int limit) {
-
-        if (transcriptList == null || transcriptList.isEmpty()) {
-            throw new RuntimeException("Could not able to get the proper transcriptContent from hits");
-        }
-
-        if (offset >= transcriptList.size()) {
-            throw new RuntimeException("Offset is out of bound");
-        }
-
+        validateInput(transcriptList, offset);
 
         int adjustedLimit = Math.min(offset + limit, transcriptList.size());
-
         StringBuilder finalString = new StringBuilder();
 
-
         for (int i = offset; i < adjustedLimit; i++) {
-            TranscriptContent transcriptContent = transcriptList.get(i);
-
-            try {
-                String s = transcriptContent.getContent();
-                Content content = JsonUtils.fromJson(s, Content.class);
-                if (java.util.Objects.nonNull(content)) {
-
-                    if (java.util.Objects.nonNull(content.getAlternatives()) && java.util.Objects.nonNull(content.getAlternatives().get(0))) {
-                        finalString.append(transcriptContent.getRole()).append(":").append(content.getAlternatives().get(0).getTranscript() +" ");
-                    }
-
-                    if (java.util.Objects.nonNull(content.getReplyText())) {
-                        finalString.append(transcriptContent.getRole()).append(":").append(content.getReplyText().get(0) + " ");
-                    }
-                }
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+            appendTranscriptContent(finalString, transcriptList.get(i));
         }
-        return finalString.toString();
+
+        return finalString.toString().trim();
+    }
+
+    private static void validateInput(List<TranscriptContent> transcriptList, int offset) {
+        if (transcriptList == null || transcriptList.isEmpty()) {
+            throw new IllegalArgumentException("Transcript list is null or empty");
+        }
+        if (offset >= transcriptList.size()) {
+            throw new IndexOutOfBoundsException("Offset is out of bounds");
+        }
+    }
+
+    private static void appendTranscriptContent(StringBuilder finalString, TranscriptContent transcriptContent) {
+        if (transcriptContent == null || transcriptContent.getContent() == null || transcriptContent.getContent().isEmpty()) {
+            return;
+        }
+
+        Content content = parseContent(transcriptContent.getContent());
+        if (content == null) {
+            return;
+        }
+
+        appendAlternatives(finalString, transcriptContent, content);
+        appendReplyText(finalString, transcriptContent, content);
+    }
+
+    private static Content parseContent(String contentJson) {
+        try {
+            return JsonUtils.fromJson(contentJson, Content.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error processing JSON for transcript content", e);
+        }
+    }
+
+    private static void appendAlternatives(StringBuilder finalString, TranscriptContent transcriptContent, Content content) {
+        if (content.getAlternatives() == null || content.getAlternatives().isEmpty()) {
+            return;
+        }
+
+        String alternativeTranscript = content.getAlternatives().get(0).getTranscript();
+        if (alternativeTranscript != null && !alternativeTranscript.isEmpty()) {
+            finalString.append(transcriptContent.getRole())
+                    .append(":")
+                    .append(alternativeTranscript)
+                    .append(" ");
+        }
+    }
+
+    private static void appendReplyText(StringBuilder finalString, TranscriptContent transcriptContent, Content content) {
+        if (content.getReplyText() == null || content.getReplyText().isEmpty()) {
+            return;
+        }
+
+        String replyText = content.getReplyText().get(0);
+        if (replyText != null && !replyText.isEmpty()) {
+            finalString.append(transcriptContent.getRole())
+                    .append(":")
+                    .append(replyText)
+                    .append(" ");
+        }
     }
 }
