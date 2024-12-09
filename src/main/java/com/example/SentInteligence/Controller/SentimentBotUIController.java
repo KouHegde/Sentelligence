@@ -63,10 +63,9 @@ public class SentimentBotUIController {
         if(Objects.isNull(updateSentimentUIRequest)){
             throw new RuntimeException("Invalid request offset is empty");
         }
-        String transcriptJson = applicationPropertiesUtils.getPropertyValue("transcriptJosn2");
         ElasticSearchResponse elasticSearchResponse;
         try {
-            elasticSearchResponse = JsonUtils.fromJson(transcriptJson, ElasticSearchResponse.class);
+            elasticSearchResponse = JsonUtils.fromJson(TRANSCRIPT_JSON, ElasticSearchResponse.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
