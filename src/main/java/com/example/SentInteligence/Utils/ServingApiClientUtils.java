@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ServingApiClientUtils {
     private static final String LATENCY_CONSTANT = "Latency : ";
-    private static final String EXPECTED_TRANSCRIPT = "lost my credit card while I was traveling yesterday";
+
 
     //TODO: Rename all the methods better,make it more meaningful and do not throw exception from a util at the end remove all the test utils created for testing
 

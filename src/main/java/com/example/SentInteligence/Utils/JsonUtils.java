@@ -10,7 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.logging.Logger;
 
 
-public class JsonUtils {
+public final class JsonUtils {
 
     private static final ObjectMapper objectMapper;
 
