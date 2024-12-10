@@ -39,31 +39,32 @@ public class IConversationInsightsAnalysis  implements SentimentAnalysisService<
         List<TranscriptContent> transcriptContents = SentimentAnalysisUtils.getContentFromHits(elasticSearchResponseRequest.getBody());
         String finalTranscript = SentimentAnalysisUtils.getMergedContentByOffset(transcriptContents,elasticSearchResponseRequest.getOffset(),elasticSearchResponseRequest.getLimit());
         HttpResponse<String> llmResponse = getSentimentAnalysisFromLLM(finalTranscript,elasticSearchResponseRequest.getConvId());
-        return getConversationSentiment(llmResponse,elasticSearchResponseRequest);
+        return getConversationSentiment(llmResponse,elasticSearchResponseRequest,finalTranscript);
     }
 
 
-    private ResponseWrapper<ConversationSentiment> getConversationSentiment(HttpResponse<String> llmResponse , RequestWrapper<ElasticSearchResponse> transcriptDetailRequest) throws JsonProcessingException {
+    private ResponseWrapper<ConversationSentiment> getConversationSentiment(HttpResponse<String> llmResponse , RequestWrapper<ElasticSearchResponse> transcriptDetailRequest, String finalTranscript) throws JsonProcessingException {
         if (Objects.nonNull(llmResponse) && llmResponse.statusCode() == 200 ){
             SentimentAnalysisResult sentimentAnalysisResult = JsonUtils.fromJson(llmResponse.body(),SentimentAnalysisResult.class);
             return ResponseWrapper.<ConversationSentiment>builder()
-                    .body(createConversationSentiment(sentimentAnalysisResult,transcriptDetailRequest))
+                    .body(createConversationSentiment(sentimentAnalysisResult,transcriptDetailRequest,finalTranscript))
                     .statusCode(llmResponse.statusCode())
                     .build();
         }
         return ResponseWrapper.<ConversationSentiment>builder()
-                .body(createConversationSentiment(null,transcriptDetailRequest))
+                .body(createConversationSentiment(null,transcriptDetailRequest,finalTranscript))
                 .statusCode(llmResponse.statusCode())
                 .statusMessage("Failed to get the response from the LLM")
                 .build();
 
     }
 
-    private ConversationSentiment createConversationSentiment(SentimentAnalysisResult sentimentAnalysisResult, RequestWrapper<ElasticSearchResponse> transcriptDetailRequest) {
+    private ConversationSentiment createConversationSentiment(SentimentAnalysisResult sentimentAnalysisResult, RequestWrapper<ElasticSearchResponse> transcriptDetailRequest, String finalTranscript) {
         return ConversationSentiment.builder()
                 .conversationId(transcriptDetailRequest.getConvId())
                 .score(Objects.nonNull(sentimentAnalysisResult) ? sentimentAnalysisResult.getConfidence() : null)
                 .rating(Objects.nonNull(sentimentAnalysisResult) ? sentimentAnalysisResult.getSentiment() : UNKNOWN)
+                .description(finalTranscript)
                 .build();
     }
 

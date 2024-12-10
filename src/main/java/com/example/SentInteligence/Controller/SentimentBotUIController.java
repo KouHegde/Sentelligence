@@ -1,5 +1,6 @@
 package com.example.SentInteligence.Controller;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.example.SentInteligence.Model.Request.RequestWrapper;
 import com.example.SentInteligence.Model.Request.UpdateSentimentUIRequest;
 import com.example.SentInteligence.Model.Response.ConversationSentiment;
@@ -66,6 +67,7 @@ public class SentimentBotUIController {
                 .orgId(elasticSearchResponseRequest.getRequestParams().get("orgID"))
                 .conversationId(elasticSearchResponseRequest.getConvId())
                 .rating(Objects.nonNull(response.getBody()) ? response.getBody().getRating() : UNKNOWN)
+                .description(Objects.nonNull(response.getBody()) ? response.getBody().getDescription() : "Unknown transcript")
                 .build();
 
     }
