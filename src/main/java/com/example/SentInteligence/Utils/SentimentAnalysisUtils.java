@@ -10,6 +10,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static com.example.SentInteligence.CommonConstants.CommonConstants.DELIMITER;
+import static com.example.SentInteligence.CommonConstants.CommonConstants.EMPTY_STRING;
+
 public class SentimentAnalysisUtils {
 
     private static final String CONTENT = "content";
@@ -38,8 +41,9 @@ public class SentimentAnalysisUtils {
 
         int adjustedLimit = Math.min(offset + limit, transcriptList.size());
         StringBuilder finalString = new StringBuilder();
+        int testOffset = Math.min(offset,transcriptList.size() -limit);
 
-        for (int i = offset; i < adjustedLimit; i++) {
+        for (int i = testOffset; i < adjustedLimit; i++) {
             appendTranscriptContent(finalString, transcriptList.get(i));
         }
 
@@ -50,9 +54,9 @@ public class SentimentAnalysisUtils {
         if (transcriptList == null || transcriptList.isEmpty()) {
             throw new IllegalArgumentException("Transcript list is null or empty");
         }
-        if (offset >= transcriptList.size()) {
-            throw new IndexOutOfBoundsException("Offset is out of bounds");
-        }
+//        if (offset >= transcriptList.size()) {
+//            throw new IndexOutOfBoundsException("Offset is out of bounds");
+//        } //TODO: Put it back once after its handled in UI.
     }
 
     private static void appendTranscriptContent(StringBuilder finalString, TranscriptContent transcriptContent) {
@@ -85,9 +89,9 @@ public class SentimentAnalysisUtils {
         String alternativeTranscript = content.getAlternatives().get(0).getTranscript();
         if (alternativeTranscript != null && !alternativeTranscript.isEmpty()) {
             finalString.append(transcriptContent.getRole())
-                    .append(":")
+                    .append(DELIMITER)
                     .append(alternativeTranscript)
-                    .append(" ");
+                    .append(EMPTY_STRING);
         }
     }
 
@@ -99,9 +103,9 @@ public class SentimentAnalysisUtils {
         String replyText = content.getReplyText().get(0);
         if (replyText != null && !replyText.isEmpty()) {
             finalString.append(transcriptContent.getRole())
-                    .append(":")
+                    .append(DELIMITER)
                     .append(replyText)
-                    .append(" ");
+                    .append(EMPTY_STRING);
         }
     }
 

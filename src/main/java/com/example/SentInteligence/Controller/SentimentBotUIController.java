@@ -1,6 +1,5 @@
 package com.example.SentInteligence.Controller;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.example.SentInteligence.Model.Request.RequestWrapper;
 import com.example.SentInteligence.Model.Request.UpdateSentimentUIRequest;
 import com.example.SentInteligence.Model.Response.ConversationSentiment;
@@ -39,7 +38,7 @@ public class SentimentBotUIController {
 
     @PostMapping("/conversation/{convId}/update-ui")
     public ResponseEntity<UpdateUIResponse> processSentiment(
-            @PathVariable("convId") String convId,
+            @PathVariable(CONVID) String convId,
             @RequestParam Map<String, String> requestParams,
             @RequestBody UpdateSentimentUIRequest updateSentimentUIRequest) {
         try {
@@ -64,7 +63,7 @@ public class SentimentBotUIController {
         }
         return UpdateUIResponse.builder()
                 .confidenceScore(Objects.nonNull(response.getBody()) ? response.getBody().getScore() : 0)
-                .orgId(elasticSearchResponseRequest.getRequestParams().get("orgID"))
+                .orgId(elasticSearchResponseRequest.getRequestParams().get(ORG_ID))
                 .conversationId(elasticSearchResponseRequest.getConvId())
                 .rating(Objects.nonNull(response.getBody()) ? response.getBody().getRating() : UNKNOWN)
                 .description(Objects.nonNull(response.getBody()) ? response.getBody().getDescription() : "Unknown transcript")
