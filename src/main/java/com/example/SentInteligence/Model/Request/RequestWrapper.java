@@ -15,6 +15,8 @@ public class RequestWrapper <REQ>{
     private Map<String, String> headers; // Additional headers (optional)
     private Map<String, String> requestParams; // Request query parameters (optional)
     private long timestamp;
+    private int offset;
+    private int limit;
 
     public RequestWrapper(String convId,String orgId, REQ body,Map<String, String> requestParams){
         this.convId = convId;
@@ -23,6 +25,16 @@ public class RequestWrapper <REQ>{
         this.setBody(body);
         this.headers = null;
         this.requestParams = requestParams;
+    }
+    public RequestWrapper(String convId,String orgId, REQ body,Map<String, String> requestParams,int offset,int limit){
+        this.convId = convId;
+        this.orgId = orgId;
+        this.timestamp = System.currentTimeMillis();
+        this.setBody(body);
+        this.headers = null;
+        this.requestParams = requestParams;
+        this.offset = offset;
+        this.limit = limit;
     }
 
 }
