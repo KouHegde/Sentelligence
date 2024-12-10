@@ -9,22 +9,16 @@ import com.example.SentInteligence.Model.Response.ResponseWrapper;
 import com.example.SentInteligence.Model.Response.UpdateUIResponse;
 import com.example.SentInteligence.Utils.ApplicationPropertiesUtils;
 import com.example.SentInteligence.Service.SentimentAnalysisService;
-import com.example.SentInteligence.Utils.ApplicationPropertiesUtils;
 import com.example.SentInteligence.Utils.JsonUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.SentInteligence.Utils.JsonUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import static com.example.SentInteligence.CommonConstants.CommonConstants.*;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/sentiment/")
@@ -56,7 +50,6 @@ public class SentimentBotUIController {
     @GetMapping("/convos")
     public ConvosResponse getOrgConvIds() throws JsonProcessingException {
         String orgConvIdJson = applicationPropertiesUtils.getPropertyValue("org_convId");
-        System.out.println(orgConvIdJson);
         return applicationPropertiesUtils.getOrgConvIds(orgConvIdJson);
 
     }
