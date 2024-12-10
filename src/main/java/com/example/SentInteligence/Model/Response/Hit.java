@@ -14,9 +14,12 @@ import java.util.Map;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Hit {
-    private String index;
-    private String id;
-    @JsonProperty("_source")
-    private Map<String, Object> source;
+    private String _index;
+    private String _id;
+    private Object _score;
+    private Map<String, Object> _source;
     private List<Long> sort;
+    @JsonProperty("content")
+    private Content content; //TODO: Set this separately in the future for easy access
+
 }
