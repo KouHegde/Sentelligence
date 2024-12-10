@@ -5,7 +5,6 @@ import com.example.SentInteligence.HttpService.Implementation.IHttpWrapper;
 import com.example.SentInteligence.Model.Request.RequestWrapper;
 import com.example.SentInteligence.Model.Request.SentimentRequest;
 import com.example.SentInteligence.Model.Request.TranscriptContent;
-import com.example.SentInteligence.Model.Request.TranscriptDetail;
 import com.example.SentInteligence.Model.Response.ConversationSentiment;
 import com.example.SentInteligence.Model.Response.ElasticSearchResponse;
 import com.example.SentInteligence.Model.Response.ResponseWrapper;
@@ -13,7 +12,7 @@ import com.example.SentInteligence.Model.Response.SentimentAnalysisResult;
 import com.example.SentInteligence.Service.SentimentAnalysisService;
 import com.example.SentInteligence.Utils.ApplicationPropertiesUtils;
 import com.example.SentInteligence.Utils.JsonUtils;
-import com.example.SentInteligence.Utils.ServingApiClientUtils;
+import com.example.SentInteligence.Utils.SentimentAnalysisUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Component;
 
@@ -37,8 +36,8 @@ public class IConversationInsightsAnalysis  implements SentimentAnalysisService<
     @Override
     public ResponseWrapper<ConversationSentiment> analyseSentiment(RequestWrapper<ElasticSearchResponse> elasticSearchResponseRequest) throws JsonProcessingException, SentimentLlmException {
 
-        List<TranscriptContent> transcriptContents = ServingApiClientUtils.getContentFromHits(elasticSearchResponseRequest.getBody());
-        String finalTranscript = ServingApiClientUtils.getMergedContentByOffset(transcriptContents,elasticSearchResponseRequest.getOffset(),elasticSearchResponseRequest.getLimit());
+        List<TranscriptContent> transcriptContents = SentimentAnalysisUtils.getContentFromHits(elasticSearchResponseRequest.getBody());
+        String finalTranscript = SentimentAnalysisUtils.getMergedContentByOffset(transcriptContents,elasticSearchResponseRequest.getOffset(),elasticSearchResponseRequest.getLimit());
         HttpResponse<String> llmResponse = getSentimentAnalysisFromLLM(finalTranscript,elasticSearchResponseRequest.getConvId());
         return getConversationSentiment(llmResponse,elasticSearchResponseRequest);
     }
