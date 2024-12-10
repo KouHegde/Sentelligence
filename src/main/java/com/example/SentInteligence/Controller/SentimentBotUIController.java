@@ -10,6 +10,7 @@ import com.example.SentInteligence.Model.Response.UpdateUIResponse;
 import com.example.SentInteligence.Utils.ApplicationPropertiesUtils;
 import com.example.SentInteligence.Service.SentimentAnalysisService;
 import com.example.SentInteligence.Utils.JsonUtils;
+import com.example.SentInteligence.Utils.SentimentAnalysisUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import static com.example.SentInteligence.CommonConstants.CommonConstants.*;
 @RestController
 @RequestMapping("/sentiment/")
 public class SentimentBotUIController {
+    private static final String ORG_CONVID = "org_convId";
+    private static final String ORG_ID = "orgID";
     private final SentimentAnalysisService<ElasticSearchResponse, ConversationSentiment> sentimentAnalysisService;
     private final ApplicationPropertiesUtils applicationPropertiesUtils;
 
@@ -49,8 +52,8 @@ public class SentimentBotUIController {
 
     @GetMapping("/convos")
     public ConvosResponse getOrgConvIds() throws JsonProcessingException {
-        String orgConvIdJson = applicationPropertiesUtils.getPropertyValue("org_convId");
-        return applicationPropertiesUtils.getOrgConvIds(orgConvIdJson);
+        String orgConvIdJson = applicationPropertiesUtils.getPropertyValue(ORG_CONVID);
+        return SentimentAnalysisUtils.getOrgConvIds(orgConvIdJson);
 
     }
 
@@ -60,7 +63,7 @@ public class SentimentBotUIController {
         }
         return UpdateUIResponse.builder()
                 .confidenceScore(Objects.nonNull(response.getBody()) ? response.getBody().getScore() : 0)
-                .orgId(elasticSearchResponseRequest.getOrgId())
+                .orgId(elasticSearchResponseRequest.getRequestParams().get("orgID"))
                 .conversationId(elasticSearchResponseRequest.getConvId())
                 .rating(Objects.nonNull(response.getBody()) ? response.getBody().getRating() : UNKNOWN)
                 .build();

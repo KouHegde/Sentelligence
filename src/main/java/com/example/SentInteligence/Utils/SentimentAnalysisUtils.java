@@ -1,10 +1,7 @@
 package com.example.SentInteligence.Utils;
 
 import com.example.SentInteligence.Model.Request.TranscriptContent;
-import com.example.SentInteligence.Model.Response.Content;
-import com.example.SentInteligence.Model.Response.ElasticSearchResponse;
-import com.example.SentInteligence.Model.Response.Hit;
-import com.example.SentInteligence.Model.Response.Hits;
+import com.example.SentInteligence.Model.Response.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.Collections;
@@ -106,5 +103,12 @@ public class SentimentAnalysisUtils {
                     .append(replyText)
                     .append(" ");
         }
+    }
+
+    public static ConvosResponse getOrgConvIds(String orgConvIdJson) throws JsonProcessingException {
+        if (orgConvIdJson != null && !orgConvIdJson.isEmpty()) {
+            return JsonUtils.fromJson(orgConvIdJson, ConvosResponse.class);
+        }
+        return null;
     }
 }

@@ -34,11 +34,5 @@ public final class ApplicationPropertiesUtils {
     }
 
 
-    public ConvosResponse getOrgConvIds(String orgConvIdJson) throws JsonProcessingException {
-        if (orgConvIdJson != null && !orgConvIdJson.isEmpty()) {
-            return JsonUtils.fromJson(orgConvIdJson, ConvosResponse.class);
-        }
-        return null;
-    }
 }
 
