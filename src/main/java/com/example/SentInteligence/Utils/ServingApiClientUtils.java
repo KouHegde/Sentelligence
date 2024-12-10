@@ -9,11 +9,7 @@ import com.google.common.base.Objects;
 import org.slf4j.Logger;
 
 import java.rmi.ServerException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class ServingApiClientUtils {
     private static final String LATENCY_CONSTANT = "Latency : ";

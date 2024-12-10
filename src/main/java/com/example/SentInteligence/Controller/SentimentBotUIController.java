@@ -24,6 +24,8 @@ import static com.example.SentInteligence.CommonConstants.CommonConstants.*;
 @RestController
 @RequestMapping("/sentiment/")
 public class SentimentBotUIController {
+    private static final String ORG_CONVID = "org_convId";
+    private static final String ORG_ID = "orgID";
     private final SentimentAnalysisService<ElasticSearchResponse, ConversationSentiment> sentimentAnalysisService;
     private final ApplicationPropertiesUtils applicationPropertiesUtils;
 
@@ -50,8 +52,7 @@ public class SentimentBotUIController {
 
     @GetMapping("/convos")
     public ConvosResponse getOrgConvIds() throws JsonProcessingException {
-        String orgConvIdJson = applicationPropertiesUtils.getPropertyValue("org_convId");
-        System.out.println(orgConvIdJson);
+        String orgConvIdJson = applicationPropertiesUtils.getPropertyValue(ORG_CONVID);
         return SentimentAnalysisUtils.getOrgConvIds(orgConvIdJson);
 
     }
@@ -62,7 +63,7 @@ public class SentimentBotUIController {
         }
         return UpdateUIResponse.builder()
                 .confidenceScore(Objects.nonNull(response.getBody()) ? response.getBody().getScore() : 0)
-                .orgId(elasticSearchResponseRequest.getOrgId())
+                .orgId(elasticSearchResponseRequest.getRequestParams().get("orgID"))
                 .conversationId(elasticSearchResponseRequest.getConvId())
                 .rating(Objects.nonNull(response.getBody()) ? response.getBody().getRating() : UNKNOWN)
                 .build();
