@@ -10,8 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static com.example.SentInteligence.CommonConstants.CommonConstants.DELIMITER;
-import static com.example.SentInteligence.CommonConstants.CommonConstants.EMPTY_STRING;
+import static com.example.SentInteligence.CommonConstants.CommonConstants.*;
 
 public class SentimentAnalysisUtils {
 
@@ -91,7 +90,7 @@ public class SentimentAnalysisUtils {
             finalString.append(transcriptContent.getRole())
                     .append(DELIMITER)
                     .append(alternativeTranscript)
-                    .append(EMPTY_STRING);
+                    .append(NEXT_LINE);
         }
     }
 
@@ -105,7 +104,7 @@ public class SentimentAnalysisUtils {
             finalString.append(transcriptContent.getRole())
                     .append(DELIMITER)
                     .append(replyText)
-                    .append(EMPTY_STRING);
+                    .append(NEXT_LINE);
         }
     }
 

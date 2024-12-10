@@ -11,6 +11,7 @@ public class CommonConstants {
     public static final String UNKNOWN = "Unknown";
     public static final String EMPTY_STRING  = " ";
     public static final String DELIMITER  = ":";
+    public static final String NEXT_LINE = "\n";;
 
     public static final String REALTIME_AGENT_ASSIST_FLAG = "REALTIME_AGENT_ASSIST_FLAG";
     public static final String REALTIME_TRANSCRIPT_FLAG = "REALTIME_TRANSCRIPT_FLAG";
