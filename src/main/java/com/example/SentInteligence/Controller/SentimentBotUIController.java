@@ -26,7 +26,7 @@ import static com.example.SentInteligence.CommonConstants.CommonConstants.*;
 @RequestMapping("/sentiment/")
 public class SentimentBotUIController {
     private static final String ORG_CONVID = "org_convId";
-    private static final String ORG_ID = "orgID";
+    private static final String ORG_ID = "orgId";
     private final SentimentAnalysisService<ElasticSearchResponse, ConversationSentiment> sentimentAnalysisService;
     private final ApplicationPropertiesUtils applicationPropertiesUtils;
 
